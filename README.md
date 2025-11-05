@@ -41,4 +41,4 @@ Este projeto foi desenvolvido pela dupla:
 **1. Clone o repositório:**
 ```bash
 git clone https://github.com/GabrielAdosS/Ado-Api-blog.git
-cd Ado-Api-blog
+cd ado
