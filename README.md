@@ -17,8 +17,6 @@ A lógica de desenvolvimento desta atividade foi **baseada no projeto "dados-pes
 * **Turma:** 3A Noturno
 * **Ano:** 2025
 
----
-
 ## Desenvolvedores
 
 Este projeto foi desenvolvido pela dupla:
