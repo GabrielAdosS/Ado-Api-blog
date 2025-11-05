@@ -25,7 +25,7 @@ Este projeto foi desenvolvido pela dupla:
 
 ## 🛠️ Tecnologias Utilizadas
 
-* **Linguagem:** Java 17+
+* **Linguagem:** Java 21
 * **Framework:** Spring Boot 3.4+
 * **Banco de Dados:** H2 (Banco de dados em memória)
 * **Arquitetura:** Webservice REST
@@ -40,5 +40,5 @@ Este projeto foi desenvolvido pela dupla:
 
 **1. Clone o repositório:**
 ```bash
-git clone [URL-DO-SEU-REPOSITORIO-AQUI]
-cd [NOME-DO-SEU-REPOSITORIO]
+git clone https://github.com/GabrielAdosS/Ado-Api-blog.git
+cd Ado-Api-blog
