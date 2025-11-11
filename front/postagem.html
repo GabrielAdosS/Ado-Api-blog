@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Postagens</title>
+</head>
+<body>
+
+<h1>Postagens Cadastradas</h1>
+<hr>
+<button id="btnIncluir">Incluir nova publicação</button>
+<div id="listaDePosts"></div>
+
+<script>
+    const areaDosPosts = document.getElementById('listaDePosts');
+
+    async function buscarPostagens() {
+        const response = await fetch('http://localhost:8080/post/todos'); 
+        if (!response.ok) {
+            areaDosPosts.innerHTML = 'Falha ao carregar as postagens.';
+            return;
+        }
+        
+        const posts = await response.json();
+        areaDosPosts.innerHTML = ''; 
+
+        posts.forEach(post => {
+            const dataFormatada = new Date(post.dataPost).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+            const statusTag = post.publicado ? '' : '<b>NÃO PUBLICADO</b>';
+
+            areaDosPosts.innerHTML += `
+                <div>
+                    <h3>${post.titulo}</h3>
+                    <p>Autor: ${post.autor}</p>
+                    <p>Publicado em: ${dataFormatada} ${statusTag}</p>
+                    <p>${post.texto}</p> 
+                    <button onclick="alterarPost(${post.id})">Alterar</button>
+                    <button onclick="excluirPost(${post.id})">Excluir</button>
+                    <hr>
+                </div>
+            `;
+        });
+    }
+
+    async function excluirPost(id) {
+        if (confirm('Tem certeza que deseja excluir este post?')) {
+            const response = await fetch(`http://localhost:8080/post/apagar?id=${id}`, {
+                method: 'DELETE'
+            });
+
+            if (response.ok) {
+                alert('Post excluído com sucesso!');
+                buscarPostagens(); 
+            } else {
+                alert('Falha ao excluir o post.');
+            }
+        }
+    }
+
+    function alterarPost(id) {
+        window.location.href = `alterar.html?id=${id}`;
+    }
+
+    document.getElementById('btnIncluir').addEventListener('click', () => {
+        window.location.href = 'index.html'; 
+    });
+
+    buscarPostagens();
+</script>
+</body>
+</html>
