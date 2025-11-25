@@ -1,0 +1,40 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: lightseagreen;
+    width: 100%;
+    max-height: 110vh;
+}
+
+#formularioBlog {
+    background-color: white;
+    width: 455px;
+    height: 556px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px;
+    gap: 30px;
+    padding: 10px 0;
+}
+
+#formularioBlog > div {
+    display: flex;
+    flex-direction: column;
+}
+
+#formularioBlog > div > input,
+#formularioBlog > div > textarea {
+    width: 351px;
+    border-radius: 10px;
+    border: 1px solid rgb(0, 0, 0, 50%);
+}
+
+#formularioBlog > div > textarea {
+    height: 114px;
+    resize: none;
+}

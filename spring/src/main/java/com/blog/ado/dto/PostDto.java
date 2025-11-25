@@ -1,8 +1,10 @@
 package com.blog.ado.dto;
 
 import java.time.LocalDate;
+
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 public class PostDto {
@@ -17,7 +19,8 @@ public class PostDto {
 	@Size(min = 10)
 	private String texto;
 
-    @FutureOrPresent(message = "A data deve ser hoje ou no futuro!")
+	@PastOrPresent
+	@FutureOrPresent
 	private LocalDate dataPost;
 
 	public PostDto() {

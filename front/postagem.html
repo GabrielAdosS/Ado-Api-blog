@@ -29,6 +29,7 @@
 
             areaDosPosts.innerHTML += `
                 <div>
+                    <h1>${post.id}</h1>
                     <h3>${post.titulo}</h3>
                     <p>Autor: ${post.autor}</p>
                     <p>Publicado em: ${dataFormatada} ${statusTag}</p>
@@ -43,7 +44,7 @@
 
     async function excluirPost(id) {
         if (confirm('Tem certeza que deseja excluir este post?')) {
-            const response = await fetch(`http://localhost:8080/post/apagar?id=${id}`, {
+            const response = await fetch(`http://localhost:8080/post/apagar/${id}`, {
                 method: 'DELETE'
             });
 

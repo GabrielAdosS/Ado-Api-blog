@@ -35,7 +35,7 @@
             return;
         }
         
-        const response = await fetch(`http://localhost:8080/post/buscar?id=${postId}`);
+        const response = await fetch(`http://localhost:8080/post/buscar/${postId}`);
         
         if (response.ok) {
             const post = await response.json();
@@ -53,7 +53,7 @@
         const formatarData = new FormData(formulario);
         const data = Object.fromEntries(formatarData.entries());
         
-        const response = await fetch(`http://localhost:8080/post/atualizar?id=${postId}`, {
+        const response = await fetch(`http://localhost:8080/post/atualizar/${postId}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -62,8 +62,6 @@
         if (response.ok) {
             alert('Post alterado com sucesso!');
             window.location.href = 'postagem.html'; 
-        } else {
-            alert('Falha ao alterar. Verifique se a data é HOJE ou no FUTURO.');
         }
     });
 
