@@ -35,6 +35,11 @@ public class PostRestController {
 		return service.findAll();
 	}
 	
+	@GetMapping("/buscar/{id}")
+	public PostDtoId findById(@PathVariable int id) {
+		return service.findById(id);
+	}
+	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<PostDto> addNew(@RequestBody @Valid PostDto dto) {
 		PostDto post = service.addNew(dto);

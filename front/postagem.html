@@ -1,133 +1,87 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
+    <title>Blog de Postagens</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Postagens</title>
     <link rel="stylesheet" href="./estilos/index.css">
 </head>
+
 <body>
 
-    <div class="header-actions">
-        <button id="btnIncluir">Incluir nova publicação</button>
-    </div>
+    <form id="formularioBlog" class="form-card">
+        <h1>Incluir nova publicação</h1>
 
-    <div class="main-container">
-        <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Postagens Cadastradas</h2>
-        <hr style="margin-bottom: 20px; border: 1px solid #eee;">
-        
-        <div id="listaDePosts"></div>
-    </div>
-
-    <div class="footer-bar">
-        Gabriel e Matheus
-    </div>
-
-    <div id="modalExclusao" class="modal-overlay">
-        <div class="modal-box">
-            <p id="textoModal">Deseja excluir a publicação?</p>
-            <div class="modal-botoes">
-                <button class="modal-btn-sim" onclick="confirmarExclusaoReal()">Sim</button>
-                <button class="modal-btn-nao" onclick="fecharModal()">Não</button>
-            </div>
+        <div class="input-group">
+            <label for="titulo">Título:</label>
+            <input type="text" id="titulo" name="titulo">
         </div>
+
+        <div class="input-group">
+            <label for="autor">Autor:</label>
+            <input type="text" id="autor" name="autor">
+        </div>
+
+        <div class="input-group">
+            <label for="dataPost">Data da Publicação:</label>
+            <input type="date" id="dataPost" name="dataPost">
+        </div>
+
+        <div class="input-group">
+            <label for="texto">Texto:</label>
+            <textarea id="texto" name="texto" rows="5"></textarea>
+        </div>
+
+        <div class="btn-container">
+            <button type="button" id="btnIrParaPostagens" class="btn-cancelar">Ver Minhas Postagens</button>
+            <button type="submit" id="btnPost" class="btn-salvar">Salvar</button>
+        </div>
+    </form>
+    <div class="footer-bar">
+        Gabriel .A e Matheus Cardoso, Turma: STADSCAS3NA 2025
     </div>
 
-<script>
-    const areaDosPosts = document.getElementById('listaDePosts');
-    const modal = document.getElementById('modalExclusao');
-    const textoModal = document.getElementById('textoModal');
-    
-    // Variável para guardar o ID temporariamente
-    let idParaExcluir = null;
+    <script>
 
-    async function buscarPostagens() {
-        const response = await fetch('http://localhost:8080/post/todos'); 
-        if (!response.ok) {
-            areaDosPosts.innerHTML = 'Falha ao carregar as postagens.';
-            return;
-        }
-        
-        const posts = await response.json();
-        areaDosPosts.innerHTML = ''; 
-
-        if (posts.length === 0) {
-            areaDosPosts.style.display = 'block';
-            areaDosPosts.innerHTML = '<div class="empty-state"><h2>Nenhum post encontrado</h2></div>';
-            return;
-        }
-        areaDosPosts.style.display = 'grid';
-
-        posts.forEach(post => {
-            const dataFormatada = new Date(post.dataPost).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-            const statusTag = post.publicado ? '' : '<b style="color:red">NÃO PUBLICADO</b>';
-
-            areaDosPosts.innerHTML += `
-                <div class="post-card">
-                    <div>
-                        <h3>${post.titulo} <small style="color:#999; font-size:11px">#${post.id}</small></h3>
-                        <div class="post-meta">
-                            Autor: ${post.autor} - ${dataFormatada} ${statusTag}
-                        </div>
-                        <p class="post-text">${post.texto}</p> 
-                    </div>
-                    <div class="card-actions">
-                        <button class="btn-card btn-alterar" onclick="alterarPost(${post.id})">Alterar</button>
-                        
-                        <button class="btn-card btn-excluir" onclick="abrirModal(${post.id})">Excluir</button>
-                    </div>
-                </div>
-            `;
+        const botaoNavegar = document.getElementById('btnIrParaPostagens');
+        botaoNavegar.addEventListener('click', function () {
+            window.location.href = 'index.html';
         });
-    }
 
-    // --- FUNÇÕES DO MODAL ---
-    function abrirModal(id) {
-        idParaExcluir = id;
-        // Atualiza o texto com o ID
-        textoModal.innerText = `Deseja excluir a publicação ID ${id}?`;
-        // Mostra o modal sobre a tela
-        modal.style.display = 'flex';
-    }
 
-    function fecharModal() {
-        modal.style.display = 'none';
-        idParaExcluir = null;
-    }
+        const formulario = document.getElementById('formularioBlog');
 
-    async function confirmarExclusaoReal() {
-        if (idParaExcluir === null) return;
+        formulario.addEventListener('submit', async function (event) {
+            event.preventDefault();
 
-        try {
-            const response = await fetch(`http://localhost:8080/post/apagar/${idParaExcluir}`, {
-                method: 'DELETE'
-            });
+            const formatarData = new FormData(formulario);
+            const data = Object.fromEntries(formatarData.entries());
 
-            if (response.ok) {
-                // Sucesso: fecha modal e recarrega
-                fecharModal();
-                buscarPostagens(); 
-            } else {
-                alert('Falha ao excluir o post.');
-                fecharModal();
+            try {
+                const response = await fetch('http://localhost:8080/post/cadastrar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+
+                })
+                if (!response.ok) {
+                    erro = await response.json()
+                    erro.errors.forEach(erro => {
+                        alert(erro.defaultMessage);
+                    });
+                }
+                if (response.ok) {
+                    window.location.href = 'index.html';
+                }
+            } catch (error) {
+                alert(error)
             }
-        } catch (error) {
-            console.error(error);
-            fecharModal();
-        }
-    }
+        });
 
-    // --- NAVEGAÇÃO ---
-    function alterarPost(id) {
-        window.location.href = `alterar.html?id=${id}`;
-    }
-
-    document.getElementById('btnIncluir').addEventListener('click', () => {
-        window.location.href = 'index.html'; 
-    });
-
-    buscarPostagens();
-
-</script>
+    </script>
 </body>
+
 </html>

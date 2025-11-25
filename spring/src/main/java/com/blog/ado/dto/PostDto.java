@@ -2,9 +2,7 @@ package com.blog.ado.dto;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 
 public class PostDto {
@@ -15,8 +13,7 @@ public class PostDto {
 	@NotBlank(message = "Autor não pode ser nulo/vazio")
 	private String autor;
 	
-	@NotBlank(message = "Autor não pode ser nulo/vazio")
-	@Size(min = 10)
+	@Size(min = 10, message = "O texto deve ter no mínimo 10 caracteres")
 	private String texto;
 
 	private LocalDate dataPost;

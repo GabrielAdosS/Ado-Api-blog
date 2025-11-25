@@ -1,4 +1,4 @@
-/* ================= 1. GERAL (FUNDO ROXO) ================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +7,7 @@
 }
 
 body {
-    background: linear-gradient(180deg, #E0E7FF 0%, #A5B4FC 100%); /* Gradiente Roxo */
+    background: linear-gradient(180deg, #E0E7FF 0%, #A5B4FC 100%);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -15,7 +15,16 @@ body {
     padding: 20px;
 }
 
-/* ================= 2. DASHBOARD (postagem.html) ================= */
+.page-title {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.page-divider {
+    margin-bottom: 20px;
+    border: 1px solid #eee;
+}
 
 .header-actions {
     margin-bottom: 20px;
@@ -76,6 +85,16 @@ body {
     color: #333;
 }
 
+.post-id-tag {
+    color: #999;
+    font-size: 11px;
+}
+
+.status-not-published {
+    color: red;
+    font-weight: bold;
+}
+
 .post-meta {
     font-size: 11px;
     color: #888;
@@ -88,7 +107,6 @@ body {
     line-height: 1.5;
     margin-bottom: 20px;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
     flex-grow: 1;
@@ -110,8 +128,8 @@ body {
     color: white;
 }
 
-.btn-alterar { background-color: #FFD700; color: #333; } /* Amarelo */
-.btn-excluir { background-color: #FF6B6B; } /* Vermelho */
+.btn-alterar { background-color: #FFD700; color: #333; } 
+.btn-excluir { background-color: #FF6B6B; } 
 
 .empty-state {
     text-align: center;
@@ -119,7 +137,6 @@ body {
     color: #333;
 }
 .empty-state h2 { margin-bottom: 10px; }
-.empty-state a { color: #007BFF; text-decoration: none; font-weight: bold; cursor: pointer;}
 
 .footer-bar {
     background-color: white;
@@ -134,7 +151,7 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* Modal de Exclusão */
+/* Modal */
 .modal-overlay {
     display: none;
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -149,8 +166,6 @@ body {
 .modal-btn-sim { background-color: #98FB98; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px; }
 .modal-btn-nao { background-color: #FF7F7F; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
 
-
-/* ================= 3. FORMULÁRIOS (index.html e alterar.html) ================= */
 
 .form-card {
     background-color: white;
@@ -202,9 +217,7 @@ body {
     border-color: #62B6FF; 
 }
 
-.input-group textarea {
-    resize: none;
-}
+.input-group textarea { resize: none; }
 
 .btn-container {
     display: flex;
@@ -222,20 +235,8 @@ body {
     transition: all 0.2s;
 }
 
-.btn-salvar {
-    background-color: #62B6FF; 
-    color: white;
-    border: none;
-}
-.btn-salvar:hover {
-    background-color: #4fa3ee;
-}
+.btn-salvar { background-color: #62B6FF; color: white; border: none; }
+.btn-salvar:hover { background-color: #4fa3ee; }
 
-.btn-cancelar {
-    background-color: white;
-    color: #333;
-    border: 1px solid #ccc;
-}
-.btn-cancelar:hover {
-    background-color: #f0f0f0;
-}
+.btn-cancelar { background-color: white; color: #333; border: 1px solid #ccc; }
+.btn-cancelar:hover { background-color: #f0f0f0; }

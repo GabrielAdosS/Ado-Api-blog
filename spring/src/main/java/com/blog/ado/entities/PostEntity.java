@@ -29,16 +29,6 @@ public class PostEntity {
 	@Column(name = "dataPost")
 	private LocalDate dataPost;
 
-    @Column (name="publicado")
-    private boolean publicado;
-
-    public boolean isPublicado(){
-        return publicado;
-    }
-    public void setPublicado(boolean publicado){
-        this.publicado=publicado;
-    }
-
 	public int getId() {
 		return id;
 	}

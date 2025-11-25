@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alterar Postagem</title>
     <link rel="stylesheet" href="./estilos/index.css">
 </head>
+
 <body>
 
     <form id="formularioAlterar" class="form-card">
@@ -37,52 +39,64 @@
         </div>
     </form>
 
-<script>
-    const formulario = document.getElementById('formularioAlterar');
-    const btnCancelar = document.getElementById('btnCancelar');
-    const params = new URLSearchParams(window.location.search);
-    const postId = params.get('id'); 
+    <div class="footer-bar">
+        Gabriel .A e Matheus Cardoso, Turma: STADSCAS3NA 2025
+    </div>
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        if (!postId) {
-            alert('ID do post não encontrado!');
-            window.location.href = 'postagem.html'; 
-            return;
-        }
-        
-        const response = await fetch(`http://localhost:8080/post/buscar/${postId}`);
-        
-        if (response.ok) {
-            const post = await response.json();
-            document.getElementById('titulo').value = post.titulo;
-            document.getElementById('autor').value = post.autor;
-            document.getElementById('dataPost').value = post.dataPost;
-            document.getElementById('texto').value = post.texto;
-        } else {
-            alert('Falha ao carregar dados do post. Verifique o controller.');
-        }
-    });
+    <script>
+        const formulario = document.getElementById('formularioAlterar');
+        const btnCancelar = document.getElementById('btnCancelar');
+        const params = new URLSearchParams(window.location.search);
+        const postId = params.get('id');
 
-    formulario.addEventListener('submit', async function(event) {
-        event.preventDefault(); 
-        const formatarData = new FormData(formulario);
-        const data = Object.fromEntries(formatarData.entries());
-        
-        const response = await fetch(`http://localhost:8080/post/atualizar/${postId}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!postId) {
+                alert('ID do post não encontrado!');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            const response = await fetch(`http://localhost:8080/post/buscar/${postId}`);
+
+            if (response.ok) {
+                const post = await response.json();
+                document.getElementById('titulo').value = post.titulo;
+                document.getElementById('autor').value = post.autor;
+                document.getElementById('dataPost').value = post.dataPost;
+                document.getElementById('texto').value = post.texto;
+            } else {
+                alert('Falha ao carregar dados do post. Verifique o controller.');
+            }
         });
 
-        if (response.ok) {
-            alert('Post alterado com sucesso!');
-            window.location.href = 'postagem.html'; 
-        }
-    });
+        formulario.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const formatarData = new FormData(formulario);
+            const data = Object.fromEntries(formatarData.entries());
 
-    btnCancelar.addEventListener('click', () => {
-        window.location.href = 'postagem.html'; 
-    });
-</script>
+            const response = await fetch(`http://localhost:8080/post/atualizar/${postId}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                erro = await response.json()
+                erro.errors.forEach(erro => {
+                    alert(erro.defaultMessage);
+                });
+            }
+
+            if (response.ok) {
+                alert('Post alterado com sucesso!');
+                window.location.href = 'index.html';
+            }
+        });
+
+        btnCancelar.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+    </script>
 </body>
+
 </html>

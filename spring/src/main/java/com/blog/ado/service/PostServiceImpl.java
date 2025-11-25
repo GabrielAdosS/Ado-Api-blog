@@ -43,7 +43,7 @@ public class PostServiceImpl implements PostService{
         p.setTitulo(dto.getTitulo());
         p.setTexto(dto.getTexto());
         p.setDataPost(dto.getDataPost());
-
+        
         return p;
     }
 
@@ -85,6 +85,11 @@ public class PostServiceImpl implements PostService{
 	}
 	@Override
 	public PostDtoId findById(int id) {
-		return null;
+		Optional<PostEntity> entity = repo.findById(id);
+		if(entity == null) {
+			throw new EntityNotFoundException("Erro ao buscar por id " + id);
+		}
+		PostDtoId dto = toDtoId(entity.get());
+		return dto;
 	}
 }
