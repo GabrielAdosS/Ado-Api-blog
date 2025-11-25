@@ -13,8 +13,9 @@
     </div>
 
     <div class="main-container">
-        <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Postagens Cadastradas</h2>
-        <hr style="margin-bottom: 20px; border: 1px solid #eee;">
+        <h2 class="page-title">Postagens Cadastradas</h2>
+        
+        <hr class="page-divider">
         
         <div id="listaDePosts"></div>
     </div>
@@ -38,55 +39,57 @@
     const modal = document.getElementById('modalExclusao');
     const textoModal = document.getElementById('textoModal');
     
-    // Variável para guardar o ID temporariamente
     let idParaExcluir = null;
 
     async function buscarPostagens() {
-        const response = await fetch('http://localhost:8080/post/todos'); 
-        if (!response.ok) {
-            areaDosPosts.innerHTML = 'Falha ao carregar as postagens.';
-            return;
-        }
-        
-        const posts = await response.json();
-        areaDosPosts.innerHTML = ''; 
+        try {
+            const response = await fetch('http://localhost:8080/post/todos'); 
+            if (!response.ok) {
+                areaDosPosts.innerHTML = '<p class="empty-state">Falha ao carregar as postagens. Verifique se o backend está rodando.</p>';
+                return;
+            }
+            
+            const posts = await response.json();
+            areaDosPosts.innerHTML = ''; 
 
-        if (posts.length === 0) {
-            areaDosPosts.style.display = 'block';
-            areaDosPosts.innerHTML = '<div class="empty-state"><h2>Nenhum post encontrado</h2></div>';
-            return;
-        }
-        areaDosPosts.style.display = 'grid';
+            if (posts.length === 0) {
+                areaDosPosts.style.display = 'block';
+                areaDosPosts.innerHTML = '<div class="empty-state"><h2>Nenhum post encontrado</h2></div>';
+                return;
+            }
+            areaDosPosts.style.display = 'grid';
 
-        posts.forEach(post => {
-            const dataFormatada = new Date(post.dataPost).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-            const statusTag = post.publicado ? '' : '<b style="color:red">NÃO PUBLICADO</b>';
+            posts.forEach(post => {
+                const dataFormatada = new Date(post.dataPost).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
+                
+                const statusTag = post.publicado ? '' : '<b class="status-not-published">NÃO PUBLICADO</b>';
 
-            areaDosPosts.innerHTML += `
-                <div class="post-card">
-                    <div>
-                        <h3>${post.titulo} <small style="color:#999; font-size:11px">#${post.id}</small></h3>
-                        <div class="post-meta">
-                            Autor: ${post.autor} - ${dataFormatada} ${statusTag}
+                areaDosPosts.innerHTML += `
+                    <div class="post-card">
+                        <div>
+                            <h3>${post.titulo} <small class="post-id-tag">#${post.id}</small></h3>
+                            
+                            <div class="post-meta">
+                                Autor: ${post.autor} - ${dataFormatada} ${statusTag}
+                            </div>
+                            <p class="post-text">${post.texto}</p> 
                         </div>
-                        <p class="post-text">${post.texto}</p> 
+                        <div class="card-actions">
+                            <button class="btn-card btn-alterar" onclick="alterarPost(${post.id})">Alterar</button>
+                            <button class="btn-card btn-excluir" onclick="abrirModal(${post.id})">Excluir</button>
+                        </div>
                     </div>
-                    <div class="card-actions">
-                        <button class="btn-card btn-alterar" onclick="alterarPost(${post.id})">Alterar</button>
-                        
-                        <button class="btn-card btn-excluir" onclick="abrirModal(${post.id})">Excluir</button>
-                    </div>
-                </div>
-            `;
-        });
+                `;
+            });
+        } catch (error) {
+            console.error(error);
+            areaDosPosts.innerHTML = '<p class="empty-state">Erro de conexão. O servidor Java está ligado?</p>';
+        }
     }
 
-    // --- FUNÇÕES DO MODAL ---
     function abrirModal(id) {
         idParaExcluir = id;
-        // Atualiza o texto com o ID
         textoModal.innerText = `Deseja excluir a publicação ID ${id}?`;
-        // Mostra o modal sobre a tela
         modal.style.display = 'flex';
     }
 
@@ -104,7 +107,6 @@
             });
 
             if (response.ok) {
-                // Sucesso: fecha modal e recarrega
                 fecharModal();
                 buscarPostagens(); 
             } else {
@@ -117,7 +119,6 @@
         }
     }
 
-    // --- NAVEGAÇÃO ---
     function alterarPost(id) {
         window.location.href = `alterar.html?id=${id}`;
     }
