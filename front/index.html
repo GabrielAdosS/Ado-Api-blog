@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 
 <head>
     <title>Blog de Postagens</title>
@@ -10,27 +10,32 @@
 
 <body>
 
-    <form id="formularioBlog">
+    <form id="formularioBlog" class="form-card">
         <h1>Incluir nova publicação</h1>
-        <div class="containerDadados">
+        
+        <div class="input-group">
             <label for="titulo">Título:</label>
             <input type="text" id="titulo" name="titulo">
         </div>
-        <div class="containerDadados">
+        
+        <div class="input-group">
             <label for="autor">Autor:</label>
             <input type="text" id="autor" name="autor">
         </div>
-        <div class="containerDadados">
+        
+        <div class="input-group">
             <label for="dataPost">Data da Publicação:</label>
             <input type="date" id="dataPost" name="dataPost">
         </div>
-        <div class="containerDadados">
+        
+        <div class="input-group">
             <label for="texto">Texto:</label>
-            <textarea id="texto" name="texto" rows="5" cols="30"></textarea>
+            <textarea id="texto" name="texto" rows="5"></textarea>
         </div>
-        <div id="containerBtns">
-            <button id="btnPost">Salvar</button>
-            <button type="button" id="btnIrParaPostagens">Ver Minhas Postagens</button>
+        
+        <div class="btn-container">
+            <button type="button" id="btnIrParaPostagens" class="btn-cancelar">Ver Minhas Postagens</button>
+            <button type="submit" id="btnPost" class="btn-salvar">Salvar</button>
         </div>
     </form>
 

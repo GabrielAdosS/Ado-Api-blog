@@ -1,17 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Postagens</title>
+    <link rel="stylesheet" href="./estilos/index.css">
 </head>
 <body>
 
-<h1>Postagens Cadastradas</h1>
-<hr>
-<button id="btnIncluir">Incluir nova publicação</button>
-<div id="listaDePosts"></div>
+    <div class="header-actions">
+        <button id="btnIncluir">Incluir nova publicação</button>
+    </div>
+
+    <div class="main-container">
+        <h2 style="text-align: center; margin-bottom: 20px; color: #333;">Postagens Cadastradas</h2>
+        <hr style="margin-bottom: 20px; border: 1px solid #eee;">
+        
+        <div id="listaDePosts"></div>
+    </div>
+
+    <div class="footer-bar">
+        Gabriel e Matheus
+    </div>
+
+    <div id="modalExclusao" class="modal-overlay">
+        <div class="modal-box">
+            <p id="textoModal">Deseja excluir a publicação?</p>
+            <div class="modal-botoes">
+                <button class="modal-btn-sim" onclick="confirmarExclusaoReal()">Sim</button>
+                <button class="modal-btn-nao" onclick="fecharModal()">Não</button>
+            </div>
+        </div>
+    </div>
 
 <script>
     const areaDosPosts = document.getElementById('listaDePosts');
+    const modal = document.getElementById('modalExclusao');
+    const textoModal = document.getElementById('textoModal');
+    
+    // Variável para guardar o ID temporariamente
+    let idParaExcluir = null;
 
     async function buscarPostagens() {
         const response = await fetch('http://localhost:8080/post/todos'); 
@@ -23,40 +51,73 @@
         const posts = await response.json();
         areaDosPosts.innerHTML = ''; 
 
+        if (posts.length === 0) {
+            areaDosPosts.style.display = 'block';
+            areaDosPosts.innerHTML = '<div class="empty-state"><h2>Nenhum post encontrado</h2></div>';
+            return;
+        }
+        areaDosPosts.style.display = 'grid';
+
         posts.forEach(post => {
             const dataFormatada = new Date(post.dataPost).toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-            const statusTag = post.publicado ? '' : '<b>NÃO PUBLICADO</b>';
+            const statusTag = post.publicado ? '' : '<b style="color:red">NÃO PUBLICADO</b>';
 
             areaDosPosts.innerHTML += `
-                <div>
-                    <h1>${post.id}</h1>
-                    <h3>${post.titulo}</h3>
-                    <p>Autor: ${post.autor}</p>
-                    <p>Publicado em: ${dataFormatada} ${statusTag}</p>
-                    <p>${post.texto}</p> 
-                    <button onclick="alterarPost(${post.id})">Alterar</button>
-                    <button onclick="excluirPost(${post.id})">Excluir</button>
-                    <hr>
+                <div class="post-card">
+                    <div>
+                        <h3>${post.titulo} <small style="color:#999; font-size:11px">#${post.id}</small></h3>
+                        <div class="post-meta">
+                            Autor: ${post.autor} - ${dataFormatada} ${statusTag}
+                        </div>
+                        <p class="post-text">${post.texto}</p> 
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-card btn-alterar" onclick="alterarPost(${post.id})">Alterar</button>
+                        
+                        <button class="btn-card btn-excluir" onclick="abrirModal(${post.id})">Excluir</button>
+                    </div>
                 </div>
             `;
         });
     }
 
-    async function excluirPost(id) {
-        if (confirm('Tem certeza que deseja excluir este post?')) {
-            const response = await fetch(`http://localhost:8080/post/apagar/${id}`, {
+    // --- FUNÇÕES DO MODAL ---
+    function abrirModal(id) {
+        idParaExcluir = id;
+        // Atualiza o texto com o ID
+        textoModal.innerText = `Deseja excluir a publicação ID ${id}?`;
+        // Mostra o modal sobre a tela
+        modal.style.display = 'flex';
+    }
+
+    function fecharModal() {
+        modal.style.display = 'none';
+        idParaExcluir = null;
+    }
+
+    async function confirmarExclusaoReal() {
+        if (idParaExcluir === null) return;
+
+        try {
+            const response = await fetch(`http://localhost:8080/post/apagar/${idParaExcluir}`, {
                 method: 'DELETE'
             });
 
             if (response.ok) {
-                alert('Post excluído com sucesso!');
+                // Sucesso: fecha modal e recarrega
+                fecharModal();
                 buscarPostagens(); 
             } else {
                 alert('Falha ao excluir o post.');
+                fecharModal();
             }
+        } catch (error) {
+            console.error(error);
+            fecharModal();
         }
     }
 
+    // --- NAVEGAÇÃO ---
     function alterarPost(id) {
         window.location.href = `alterar.html?id=${id}`;
     }
@@ -65,20 +126,7 @@
         window.location.href = 'index.html'; 
     });
 
-    
     buscarPostagens();
-
-
-<div id="modalExclusao" class="modal-overlay">
-    <div class="modal-box">
-        <p id="textoModal">Deseja excluir a publicação ID X ?</p>
-        <div class="modal-botoes">
-            <button class="btn-sim" onclick="confirmarExclusaoReal()">Sim</button>
-            <button class="btn-nao" onclick="fecharModal()">Não</button>
-        </div>
-    </div>
-</div>
-
 
 </script>
 </body>

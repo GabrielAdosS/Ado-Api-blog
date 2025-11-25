@@ -1,70 +1,241 @@
+/* ================= 1. GERAL (FUNDO ROXO) ================= */
 * {
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
 }
 
 body {
-    background-color: lightseagreen;
-    width: 100%;
-    min-height: 100vh; 
-    
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#formularioBlog {
-    background-color: white;
-    width: 455px;
-    height: 556px;
+    background: linear-gradient(180deg, #E0E7FF 0%, #A5B4FC 100%); /* Gradiente Roxo */
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    border-radius: 10px;
-    gap: 30px;
-    padding: 10px 0;
+    padding: 20px;
 }
 
-#formularioBlog > .containerDadados {
+/* ================= 2. DASHBOARD (postagem.html) ================= */
+
+.header-actions {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+#btnIncluir {
+    background-color: white;
+    color: #333;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+#btnIncluir:hover { transform: translateY(-2px); }
+
+.main-container {
+    background-color: white;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 600px; 
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+#listaDePosts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.post-card {
+    background-color: white;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s;
+}
+
+.post-card:hover { box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+
+.post-card h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.post-meta {
+    font-size: 11px;
+    color: #888;
+    margin-bottom: 15px;
+}
+
+.post-text {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.card-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-card {
+    padding: 6px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    color: white;
+}
+
+.btn-alterar { background-color: #FFD700; color: #333; } /* Amarelo */
+.btn-excluir { background-color: #FF6B6B; } /* Vermelho */
+
+.empty-state {
+    text-align: center;
+    margin: auto; 
+    color: #333;
+}
+.empty-state h2 { margin-bottom: 10px; }
+.empty-state a { color: #007BFF; text-decoration: none; font-weight: bold; cursor: pointer;}
+
+.footer-bar {
+    background-color: white;
+    width: 100%;
+    max-width: 1200px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 12px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Modal de Exclusão */
+.modal-overlay {
+    display: none;
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 2000;
+    justify-content: center; align-items: center;
+}
+.modal-box {
+    background-color: white; padding: 30px; border-radius: 10px;
+    text-align: center; min-width: 300px;
+}
+.modal-btn-sim { background-color: #98FB98; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-right: 10px; }
+.modal-btn-nao { background-color: #FF7F7F; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+
+
+/* ================= 3. FORMULÁRIOS (index.html e alterar.html) ================= */
+
+.form-card {
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: auto; 
+}
+
+.form-card h1 {
+    color: #000;
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.input-group {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-#formularioBlog > .containerDadados > input,
-#formularioBlog > .containerDadados > textarea {
-    width: 351px;
-    height: 27px;
-    border-radius: 10px;
-    border: 1px solid rgb(0, 0, 0, 50%);
+.input-group label {
+    color: #555;
+    font-size: 14px;
+    font-weight: 500;
 }
 
-#formularioBlog > .containerDadados > textarea {
-    height: 114px;
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px; 
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.3s;
+    background-color: white;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: #62B6FF; 
+}
+
+.input-group textarea {
     resize: none;
 }
 
-#containerBtns {
-    flex-direction: row;
+.btn-container {
+    display: flex;
+    justify-content: flex-end; 
+    gap: 10px;
+    margin-top: 10px;
 }
 
-#btnPost {
-    border: none;
-    width: 93px;
-    height: 40px;
-    background-color: #6CBAFF;
-    color: #0088FF;
-    font-weight: bolder;
-    font-size: 15px;
-    border-radius: 5px;
+.btn-container button {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-#btnIrParaPostagens {
+.btn-salvar {
+    background-color: #62B6FF; 
+    color: white;
     border: none;
-    height: 40px;
-    border-radius: 5px;
-    padding: 8px 16px;
-    font-weight: bolder;
-    font-size: 15px;
+}
+.btn-salvar:hover {
+    background-color: #4fa3ee;
+}
+
+.btn-cancelar {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+}
+.btn-cancelar:hover {
+    background-color: #f0f0f0;
 }
