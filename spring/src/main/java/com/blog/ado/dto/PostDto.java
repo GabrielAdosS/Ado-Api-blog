@@ -1,13 +1,15 @@
 package com.blog.ado.dto;
 
 import java.time.LocalDate;
-
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class PostDto {
-	
-	@NotBlank(message = "Titulo não pode ser nulo/vazio")
+
+    private int id;
+
+    @NotBlank(message = "Titulo não pode ser nulo/vazio")
 	private String titulo;
 	
 	@NotBlank(message = "Autor não pode ser nulo/vazio")
@@ -16,19 +18,29 @@ public class PostDto {
 	@NotBlank(message = "Autor não pode ser nulo/vazio")
 	@Size(min = 10)
 	private String texto;
-	
+
+    @FutureOrPresent(message = "A data deve ser hoje ou no futuro!")
 	private LocalDate dataPost;
-	
+	private boolean publicado;
+
 	public PostDto() {
-		// TODO Auto-generated constructor stub
 	}
-	
-	public PostDto(String titulo, String autor, String texto, LocalDate dataPost) {
+
+    public boolean isPublicado() {
+        return publicado;
+    }
+
+    public void setPublicado(boolean publicado) {
+        this.publicado = publicado;
+    }
+
+    public PostDto(String titulo, String autor, String texto, LocalDate dataPost, boolean publicado) {
 		this.titulo = titulo;
 		this.autor = autor;
 		this.texto = texto;
 		this.dataPost = dataPost;
-	}
+	    this.publicado = publicado;
+    }
 
 	public String getTitulo() {
 		return titulo;
@@ -54,7 +66,15 @@ public class PostDto {
 		this.texto = texto;
 	}
 
-	public LocalDate getDataPost() {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public LocalDate getDataPost() {
 		return dataPost;
 	}
 

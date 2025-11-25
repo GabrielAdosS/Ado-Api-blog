@@ -3,7 +3,6 @@ package com.blog.ado.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,24 +28,26 @@ public class PostServiceImpl implements PostService{
 		p.setDataPost(entity.getDataPost());
 		return p;
 	}
-	
 	public PostDto toDto(PostEntity entity) {
 		PostDto p = new PostDto();
-		p.setAutor(entity.getAutor());
+        p.setId(entity.getId());
+        p.setAutor(entity.getAutor());
 		p.setTitulo(entity.getTitulo());
 		p.setTexto(entity.getTexto());
 		p.setDataPost(entity.getDataPost());
-		return p;
+		p.setPublicado(entity.isPublicado());
+        return p;
 	}
-	
-	public PostEntity toEntity(PostDto dto) {
-		PostEntity p = new PostEntity();
-		p.setAutor(dto.getAutor());
-		p.setTitulo(dto.getTitulo());
-		p.setTexto(dto.getTexto());
-		p.setDataPost(dto.getDataPost());
-		return p;
-	}
+
+    public PostEntity toEntity(PostDto dto) {
+        PostEntity p = new PostEntity();
+        p.setAutor(dto.getAutor());
+        p.setTitulo(dto.getTitulo());
+        p.setTexto(dto.getTexto());
+        p.setDataPost(dto.getDataPost());
+
+        return p;
+    }
 
 	@Override
 	public List<PostDtoId> findAll() {
@@ -59,11 +60,11 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public PostDto addNew(PostDto dto) {
-		PostEntity entity = toEntity(dto);
-		repo.save(entity);
-		return dto;
-	}
+    public PostDto addNew(PostDto dto) {
+        PostEntity entity = toEntity(dto);
+        PostEntity entitySalva = repo.save(entity);
+        return toDto(entitySalva);
+    }
 
 	@Override
 	public PostDto update(int id, PostDto dto) {
@@ -84,7 +85,6 @@ public class PostServiceImpl implements PostService{
 	public void delete(int id) {
 		repo.deleteById(id);
 	}
-
 	@Override
 	public PostDtoId findById(int id) {
 		return null;

@@ -1,11 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog</title>
+    <title>Blog de Postagens</title>
 </head>
 <body>
-    
+
+<form id="formularioBlog">
+
+    <label for="titulo">Título:</label><br>
+    <input type="text" id="titulo" name="titulo" ><br><br>
+
+    <label for="autor">Autor:</label><br>
+    <input type="text" id="autor" name="autor" ><br><br>
+
+    <label for="dataPost">Data da Publicação:</label><br>
+    <input type="date" id="dataPost" name="dataPost" ><br><br>
+
+    <label for="texto">Texto:</label><br>
+    <textarea id="texto" name="texto" rows="5" cols="30"></textarea><br><br>
+
+    <input type="submit" value="Enviar Postagem">
+    <button type="button" id="btnIrParaPostagens">Ver Minhas Postagens</button>
+</form>
+
+<script>
+
+    const botaoNavegar = document.getElementById('btnIrParaPostagens');
+    botaoNavegar.addEventListener('click', function() {
+        window.location.href = 'postagem.html';
+    });
+
+
+    const formulario = document.getElementById('formularioBlog');
+
+    formulario.addEventListener('submit', async function(event) {
+        event.preventDefault();
+
+        const formatarData = new FormData(formulario);
+        const data = Object.fromEntries(formatarData.entries());
+
+        const response = await fetch('http://localhost:8080/post/cadastrar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (response.ok) {
+            alert('Post enviado com sucesso!');
+            window.location.href = 'postagem.html';
+        } else {
+            alert('Falha ao enviar as postagens. Verifique os dados.');
+        }
+    });
+
+</script>
 </body>
 </html>
