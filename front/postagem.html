@@ -64,7 +64,21 @@
         window.location.href = 'index.html'; 
     });
 
+    
     buscarPostagens();
+
+
+<div id="modalExclusao" class="modal-overlay">
+    <div class="modal-box">
+        <p id="textoModal">Deseja excluir a publicação ID X ?</p>
+        <div class="modal-botoes">
+            <button class="btn-sim" onclick="confirmarExclusaoReal()">Sim</button>
+            <button class="btn-nao" onclick="fecharModal()">Não</button>
+        </div>
+    </div>
+</div>
+
+
 </script>
 </body>
 </html>
