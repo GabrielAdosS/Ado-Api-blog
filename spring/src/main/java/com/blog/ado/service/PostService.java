@@ -3,9 +3,10 @@ package com.blog.ado.service;
 import java.util.List;
 
 import com.blog.ado.dto.PostDto;
+import com.blog.ado.dto.PostDtoId;
 
 public interface PostService {
-    List<PostDto> findAll();
+    List<PostDtoId> findAll();
 
     PostDto addNew(PostDto dto);
 
@@ -13,5 +14,5 @@ public interface PostService {
 
     void delete(int id);
     
-    PostDto findById(int id);
+    PostDtoId findById(int id);
 }

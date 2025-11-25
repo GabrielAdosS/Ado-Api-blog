@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.blog.ado.dto.PostDto;
+import com.blog.ado.dto.PostDtoId;
 import com.blog.ado.entities.PostEntity;
 import com.blog.ado.repository.PostRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class PostServiceImpl implements PostService{
@@ -17,6 +20,16 @@ public class PostServiceImpl implements PostService{
 	@Autowired
 	private PostRepository repo;
 
+	public PostDtoId toDtoId(PostEntity entity) {
+		PostDtoId p = new PostDtoId();
+		p.setId(entity.getId());
+		p.setAutor(entity.getAutor());
+		p.setTitulo(entity.getTitulo());
+		p.setTexto(entity.getTexto());
+		p.setDataPost(entity.getDataPost());
+		return p;
+	}
+	
 	public PostDto toDto(PostEntity entity) {
 		PostDto p = new PostDto();
 		p.setAutor(entity.getAutor());
@@ -36,11 +49,11 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public List<PostDto> findAll() {
+	public List<PostDtoId> findAll() {
 		List<PostEntity> listEntity = repo.findAll();
-		List<PostDto> listDto = new ArrayList<PostDto>();
+		List<PostDtoId> listDto = new ArrayList<PostDtoId>();
 		for(PostEntity entity : listEntity) {
-			listDto.add(toDto(entity));
+			listDto.add(toDtoId(entity));
 		}
 		return listDto;
 	}
@@ -56,7 +69,7 @@ public class PostServiceImpl implements PostService{
 	public PostDto update(int id, PostDto dto) {
 		Optional<PostEntity> entityBanco = repo.findById(id);
 		if(entityBanco == null) {
-			//tratar erro
+			throw new EntityNotFoundException("Post de id %i não encontrado!".formatted(id));
 		}
 		PostEntity entity = entityBanco.get();
 		entity.setAutor(dto.getAutor());
@@ -73,8 +86,7 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public PostDto findById(int id) {
-		// TODO Auto-generated method stub
+	public PostDtoId findById(int id) {
 		return null;
 	}
 }
