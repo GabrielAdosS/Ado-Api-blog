@@ -30,12 +30,10 @@ public class PostServiceImpl implements PostService{
 	}
 	public PostDto toDto(PostEntity entity) {
 		PostDto p = new PostDto();
-        p.setId(entity.getId());
         p.setAutor(entity.getAutor());
 		p.setTitulo(entity.getTitulo());
 		p.setTexto(entity.getTexto());
 		p.setDataPost(entity.getDataPost());
-		p.setPublicado(entity.isPublicado());
         return p;
 	}
 

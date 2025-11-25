@@ -1,8 +1,6 @@
 package com.blog.ado.dto;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
 
 public class PostDtoId {
 	
