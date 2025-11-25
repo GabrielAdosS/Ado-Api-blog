@@ -12,24 +12,24 @@
 
     <form id="formularioBlog">
         <h1>Incluir nova publicação</h1>
-        <div>
+        <div class="containerDadados">
             <label for="titulo">Título:</label>
             <input type="text" id="titulo" name="titulo">
         </div>
-        <div>
+        <div class="containerDadados">
             <label for="autor">Autor:</label>
             <input type="text" id="autor" name="autor">
         </div>
-        <div>
+        <div class="containerDadados">
             <label for="dataPost">Data da Publicação:</label>
             <input type="date" id="dataPost" name="dataPost">
         </div>
-        <div>
+        <div class="containerDadados">
             <label for="texto">Texto:</label>
             <textarea id="texto" name="texto" rows="5" cols="30"></textarea>
         </div>
-        <div>
-            <input type="submit" value="Enviar Postagem">
+        <div id="containerBtns">
+            <button id="btnPost">Salvar</button>
             <button type="button" id="btnIrParaPostagens">Ver Minhas Postagens</button>
         </div>
     </form>

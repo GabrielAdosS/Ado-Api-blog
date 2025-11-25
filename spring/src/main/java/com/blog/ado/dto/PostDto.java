@@ -19,8 +19,6 @@ public class PostDto {
 	@Size(min = 10)
 	private String texto;
 
-	@PastOrPresent
-	@FutureOrPresent
 	private LocalDate dataPost;
 
 	public PostDto() {
