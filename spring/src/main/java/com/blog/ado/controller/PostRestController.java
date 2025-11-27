@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.blog.ado.dto.PostDto;
-import com.blog.ado.dto.PostDtoId;
-import com.blog.ado.service.PostService;
+import com.blog.ado.dto.Post;
+import com.blog.ado.dto.PostId;
+import com.blog.ado.service.ServicePostagem;
 
 import jakarta.validation.Valid;
 
@@ -28,21 +28,21 @@ import jakarta.validation.Valid;
 public class PostRestController {
 	
 	@Autowired
-	private PostService service;
+	private ServicePostagem service;
 	
 	@GetMapping("/todos")
-	public List<PostDtoId> findAll() {
+	public List<PostId> findAll() {
 		return service.findAll();
 	}
 	
 	@GetMapping("/buscar/{id}")
-	public PostDtoId findById(@PathVariable int id) {
+	public PostId findById(@PathVariable int id) {
 		return service.findById(id);
 	}
 	
 	@PostMapping("/cadastrar")
-	public ResponseEntity<PostDto> addNew(@RequestBody @Valid PostDto dto) {
-		PostDto post = service.addNew(dto);
+	public ResponseEntity<Post> addNew(@RequestBody @Valid Post dto) {
+		Post post = service.addNew(dto);
 		 URI location = ServletUriComponentsBuilder
 		            .fromCurrentRequestUri()
 		            .path("/{titulo}")
@@ -52,13 +52,13 @@ public class PostRestController {
 	}
 	
 	@PutMapping("/atualizar/{id}")
-	public ResponseEntity<PostDto> update(@PathVariable int id,  @RequestBody @Valid PostDto dto) {
+	public ResponseEntity<Post> update(@PathVariable int id,  @RequestBody @Valid Post dto) {
 		service.update(id, dto);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/apagar/{id}")
-	public ResponseEntity<PostDto> delete(@PathVariable int id) {
+	public ResponseEntity<Post> delete(@PathVariable int id) {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

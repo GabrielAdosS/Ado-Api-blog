@@ -2,32 +2,37 @@ package com.blog.ado.dto;
 
 import java.time.LocalDate;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
-public class PostDto {
-
-    @NotBlank(message = "Titulo não pode ser nulo/vazio")
+public class PostId {
+	
+	private int id;
+	
 	private String titulo;
 	
-	@NotBlank(message = "Autor não pode ser nulo/vazio")
 	private String autor;
 	
-	@Size(min = 10, message = "O texto deve ter no mínimo 10 caracteres")
 	private String texto;
-
+	
 	private LocalDate dataPost;
-
-	public PostDto() {
+	
+	 public PostId() {
 	}
-
-    public PostDto(String titulo, String autor, String texto, LocalDate dataPost, boolean publicado) {
+	 
+	public PostId(int id, String titulo, String autor, String texto, LocalDate dataPost) {
+		this.id = id;
 		this.titulo = titulo;
 		this.autor = autor;
 		this.texto = texto;
 		this.dataPost = dataPost;
-    }
+	}
 
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
 	public String getTitulo() {
 		return titulo;
 	}
@@ -52,11 +57,19 @@ public class PostDto {
 		this.texto = texto;
 	}
 
-    public LocalDate getDataPost() {
+	public LocalDate getDataPost() {
 		return dataPost;
 	}
 
 	public void setDataPost(LocalDate dataPost) {
 		this.dataPost = dataPost;
+	}
+	
+	public boolean isPublicado() {
+		LocalDate atual = LocalDate.now();
+		if (this.dataPost.isBefore(atual) || this.dataPost.isEqual(atual)) {
+			return true;
+		}
+		return false;
 	}
 }

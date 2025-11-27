@@ -6,21 +6,21 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.blog.ado.dto.PostDto;
-import com.blog.ado.dto.PostDtoId;
+import com.blog.ado.dto.Post;
+import com.blog.ado.dto.PostId;
 import com.blog.ado.entities.PostEntity;
 import com.blog.ado.repository.PostRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
-public class PostServiceImpl implements PostService{
+public class ServiceImplement implements ServicePostagem {
 	
 	@Autowired
 	private PostRepository repo;
 
-	public PostDtoId toDtoId(PostEntity entity) {
-		PostDtoId p = new PostDtoId();
+	public PostId toDtoId(PostEntity entity) {
+		PostId p = new PostId();
 		p.setId(entity.getId());
 		p.setAutor(entity.getAutor());
 		p.setTitulo(entity.getTitulo());
@@ -28,8 +28,8 @@ public class PostServiceImpl implements PostService{
 		p.setDataPost(entity.getDataPost());
 		return p;
 	}
-	public PostDto toDto(PostEntity entity) {
-		PostDto p = new PostDto();
+	public Post toDto(PostEntity entity) {
+		Post p = new Post();
         p.setAutor(entity.getAutor());
 		p.setTitulo(entity.getTitulo());
 		p.setTexto(entity.getTexto());
@@ -37,7 +37,7 @@ public class PostServiceImpl implements PostService{
         return p;
 	}
 
-    public PostEntity toEntity(PostDto dto) {
+    public PostEntity toEntity(Post dto) {
         PostEntity p = new PostEntity();
         p.setAutor(dto.getAutor());
         p.setTitulo(dto.getTitulo());
@@ -48,9 +48,9 @@ public class PostServiceImpl implements PostService{
     }
 
 	@Override
-	public List<PostDtoId> findAll() {
+	public List<PostId> findAll() {
 		List<PostEntity> listEntity = repo.findAll();
-		List<PostDtoId> listDto = new ArrayList<PostDtoId>();
+		List<PostId> listDto = new ArrayList<PostId>();
 		for(PostEntity entity : listEntity) {
 			listDto.add(toDtoId(entity));
 		}
@@ -58,14 +58,14 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-    public PostDto addNew(PostDto dto) {
+    public Post addNew(Post dto) {
         PostEntity entity = toEntity(dto);
         PostEntity entitySalva = repo.save(entity);
         return toDto(entitySalva);
     }
 
 	@Override
-	public PostDto update(int id, PostDto dto) {
+	public Post update(int id, Post dto) {
 		Optional<PostEntity> entityBanco = repo.findById(id);
 		if(entityBanco == null) {
 			throw new EntityNotFoundException("Post de id %i não encontrado!".formatted(id));
@@ -84,12 +84,12 @@ public class PostServiceImpl implements PostService{
 		repo.deleteById(id);
 	}
 	@Override
-	public PostDtoId findById(int id) {
+	public PostId findById(int id) {
 		Optional<PostEntity> entity = repo.findById(id);
 		if(entity == null) {
 			throw new EntityNotFoundException("Erro ao buscar por id " + id);
 		}
-		PostDtoId dto = toDtoId(entity.get());
+		PostId dto = toDtoId(entity.get());
 		return dto;
 	}
 }
